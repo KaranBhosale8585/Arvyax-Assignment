@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { message: "Invalid email or password" },
+        { message: "User not found" },
         {
           status: 401,
         },
