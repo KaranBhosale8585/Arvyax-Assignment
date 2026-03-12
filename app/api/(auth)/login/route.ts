@@ -1,5 +1,7 @@
 import { getDB } from "@/lib/db";
 import { User } from "@/models/User";
+import { generateToken } from "@/utils/jwt";
+import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -8,7 +10,7 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: "Email or password is missing" },
+        { message: "Missing required fields" },
         {
           status: 400,
         },
@@ -21,33 +23,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { message: "User not found" },
         {
-          status: 401,
+          status: 404,
         },
       );
     }
 
-    const isMatch = await user.comparePassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return NextResponse.json(
-        { message: "Invalid email or password" },
+        { message: "Invalid credentials" },
         {
           status: 401,
         },
       );
     }
 
-    const token = await user.generateJWT();
+    const token = await generateToken(user);
 
     return NextResponse.json(
       { message: "Login successful", token },
       {
-        status: 200,
+        status: 201,
       },
     );
-
   } catch (error) {
     return NextResponse.json(
-      { message: "Invalid request" },
+      { message: "server error. Please try again later" },
       {
         status: 500,
       },
