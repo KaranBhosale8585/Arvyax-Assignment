@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken } from "./utils/jwt";
 
-const protectedRoutes = ["/"];
+const protectedRoutes = ["/", "/ai-history"];
 const authPages = ["/login", "/signup"];
 
 export async function proxy(req: NextRequest) {
@@ -23,5 +23,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup"],
+  matcher: ["/", "/login", "/signup", "/ai-history"],
 };
