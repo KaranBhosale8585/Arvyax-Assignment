@@ -16,10 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arvyax-Assignment
-",
-  description: "Arvyax-Assignment
-",
+  title: "Arvyax-Assignment",
+  description: "Arvyax-Assignment is a web application built with Next.js, showcasing a responsive design and modern UI components.",
 };
 
 export default function RootLayout({
